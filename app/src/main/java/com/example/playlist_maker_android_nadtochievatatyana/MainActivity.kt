@@ -30,14 +30,17 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.rememberNavController
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+            val navController = rememberNavController()
+            PlaylistHost(navController = navController)
         }
+    }
 
 //        val intent = Intent(this, SettingsActivity::class.java)
 //        startActivity(intent)
@@ -46,9 +49,8 @@ class MainActivity : ComponentActivity() {
 //        startActivity(displayIntent)
 
     }
-    @Preview
     @Composable
-    fun MainScreen() {
+    fun MainScreen(onOpenSearch: () -> Unit, onOpenSettings: () -> Unit) {
 
         val context = LocalContext.current
 
@@ -90,7 +92,7 @@ class MainActivity : ComponentActivity() {
 
         }
         }
-    }
+
 
     @Composable
     fun DrawerItem(
