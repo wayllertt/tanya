@@ -26,7 +26,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.playlist_maker_android_nadtochievatatyana.R
+//import com.example.playlist_maker_android_nadtochievatatyana.R
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -93,7 +93,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                     .fillMaxWidth()
                     .clickable {
                         val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                            Intent.setType = "text/plain"
+                            type = "text/plain"
                             putExtra(Intent.EXTRA_TEXT, shareText)
                         }
                         val chooser = Intent.createChooser(
