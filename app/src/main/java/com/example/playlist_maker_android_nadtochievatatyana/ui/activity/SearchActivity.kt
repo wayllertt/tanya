@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -46,89 +47,7 @@ class SearchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SearchScreen(
-                onBack = { finish() },
-                onSearch = {},
-            )
+            SearchRoute(onBack = { finish() })
         }
     }
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SearchScreen(
-    onBack: () -> Unit,
-    onSearch: (String) -> Unit = {}
-) {
-    var searchQuery by remember { mutableStateOf(TextFieldValue("")) }
-    val fieldColor = Color(0xFFE6E8EB)
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Поиск") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowBack,
-                            contentDescription = "Назад",
-                        )
-                    }
-                },
-            )
-        },
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                placeholder = { Text("Поиск") },
-                leadingIcon = {
-                    IconButton(onClick = { onSearch(searchQuery.text) }) {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = "Искать",
-                        )
-                    }
-                },
-                trailingIcon = {
-                    if (searchQuery.text.isNotEmpty()) {
-                        IconButton(onClick = { searchQuery = TextFieldValue("") }) {
-                            Icon(
-                                imageVector = Icons.Filled.Clear,
-                                contentDescription = "Очистить",
-                            )
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = fieldColor,
-                    unfocusedContainerColor = fieldColor,
-                    disabledContainerColor = fieldColor,
-                    errorContainerColor = fieldColor,
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    errorBorderColor = Color.Transparent,
-                ),
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-        }
-    }
-}
-
-//@Preview(showBackground = true)
-//@Composable
-//private fun SearchScreenPreview() {
-//    SearchScreen()
-//}

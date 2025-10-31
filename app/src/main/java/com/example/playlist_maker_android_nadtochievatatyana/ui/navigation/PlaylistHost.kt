@@ -5,9 +5,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
-import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.SearchScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.SettingsScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.MainScreen
+import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
 
 @Composable
 fun PlaylistHost(navController: NavHostController) {
@@ -38,7 +38,7 @@ fun PlaylistHost(navController: NavHostController) {
             )
         }
         composable(AppScreen.Search.route) {
-            SearchScreen(
+            SearchRoute(
                 onBack = navigateUp,
             )
         }

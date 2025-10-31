@@ -1,6 +1,7 @@
 package com.example.playlist_maker_android_nadtochievatatyana.creator
 
 import com.example.playlist_maker_android_nadtochievatatyana.data.dto.TrackDto
+import java.util.Locale
 
 class Storage {
     private val listTracks = listOf(
@@ -57,10 +58,14 @@ class Storage {
     )
 
     fun search(request: String): List<TrackDto> {
-        return listTracks.filter {
-            it.trackName
-                .lowercase()
-                .contains(request.lowercase())
+        val normalizedRequest = request.normalizeForSearch()
+        if (normalizedRequest.isEmpty()) return emptyList()
+        return listTracks.filter { track ->
+            track.trackName.normalizeForSearch().contains(normalizedRequest)
         }
     }
+    private fun String.normalizeForSearch(): String =
+        lowercase(Locale.getDefault())
+            .replace('ё', 'е')
+            .trim()
 }

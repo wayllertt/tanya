@@ -3,6 +3,7 @@ package com.example.playlist_maker_android_nadtochievatatyana.creator
 import com.example.playlist_maker_android_nadtochievatatyana.data.network.RetrofitNetworkClient
 import com.example.playlist_maker_android_nadtochievatatyana.data.repository.TracksRepositoryImpl
 import com.example.playlist_maker_android_nadtochievatatyana.domain.api.TracksRepository
+import androidx.lifecycle.ViewModelProvider
 
 object Creator {
 
@@ -12,5 +13,9 @@ object Creator {
 
     fun provideTracksRepository(): TracksRepository {
         return TracksRepositoryImpl(networkClient)
+    }
+
+    fun provideSearchViewModelFactory(): ViewModelProvider.Factory {
+        return SearchViewModelFactory(provideTracksRepository())
     }
 }
