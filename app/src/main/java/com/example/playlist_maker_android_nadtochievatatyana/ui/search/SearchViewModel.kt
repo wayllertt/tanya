@@ -20,7 +20,7 @@ class SearchViewModel(
 ) : ViewModel() {
 
     private val _searchScreenState = MutableStateFlow<SearchState>(SearchState.Initial)
-    val searchScreenState: StateFlow<SearchState> = _state.asStateFlow()
+    val searchScreenState: StateFlow<SearchState> = _searchScreenState.asStateFlow()
 
     fun search(whatSearch: String) {
         val query = whatSearch.trim()
@@ -38,7 +38,7 @@ class SearchViewModel(
             }
 
             fun reset() {
-                searchScreenState.value = SearchState.Initial
+                _searchScreenState.value = SearchState.Initial
             }
             companion object {
             fun getViewModelFactory(): ViewModelProvider.Factory =

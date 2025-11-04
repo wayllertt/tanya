@@ -53,6 +53,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -165,12 +166,12 @@ fun SearchScreen(
                         .weight(1f)
                         .fillMaxWidth(),
                 ) {
-                    items(tracks) { track ->
+                    itemsIndexed(tracks) { index, track ->
                         TrackListItem(track = track)
-                        HorizontalDivider(
-                            thickness = 0.5.dp,
-                            color = MaterialTheme.colorScheme.outline
-                        )
+                        if (index != tracks.lastIndex) {
+                            HorizontalDivider(thickness = 0.5.dp)
+                        }
+
                     }
                 }
             }
