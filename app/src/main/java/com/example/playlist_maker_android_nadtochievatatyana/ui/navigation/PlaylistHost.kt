@@ -10,6 +10,10 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.MainScr
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import com.example.playlist_maker_android_nadtochievatatyana.ui.settings.SettingsScreen
+
+
+
 @Composable
 fun PlaylistHost(navController: NavHostController) {
     val navigateUp: () -> Unit = { navController.navigateUp() }
