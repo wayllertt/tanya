@@ -8,7 +8,8 @@ import androidx.navigation.navOptions
 import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.SettingsScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.MainScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
-
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 @Composable
 fun PlaylistHost(navController: NavHostController) {
     val navigateUp: () -> Unit = { navController.navigateUp() }
@@ -39,7 +40,7 @@ fun PlaylistHost(navController: NavHostController) {
         }
         composable(AppScreen.Search.route) {
             SearchRoute(
-                onBack = navigateUp,
+                modifier = Modifier.fillMaxSize(),
             )
         }
         composable(AppScreen.Settings.route) {

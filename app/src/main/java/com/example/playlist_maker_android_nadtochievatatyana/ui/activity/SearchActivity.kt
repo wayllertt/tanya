@@ -49,7 +49,7 @@ class SearchActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PlaylistmakerandroidNadtochievaTatyanaTheme {
-                SearchRoute(onBack = { finish() })
+                SearchRoute()
             }
         }
     }

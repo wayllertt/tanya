@@ -36,88 +36,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.playlist_maker_android_nadtochievatatyana.ui.navigation.PlaylistHost
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.compose.material3.Scaffold
+import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchScreen
+import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchViewModel
+import com.example.playlist_maker_android_nadtochievatatyana.ui.theme.PlaylistmakerandroidNadtochievaTatyanaTheme
 
 class MainActivity : ComponentActivity() {
+    private val searchViewModel by viewModels<SearchViewModel> {
+        SearchViewModel.getViewModelFactory()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            PlaylistHost(navController = navController)
+            PlaylistmakerandroidNadtochievaTatyanaTheme {
+                Scaffold { innerPadding ->
+                    SearchScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        viewModel = searchViewModel,
+                    )
+                }
+            }
         }
-    }
-}
-
-@Composable
-fun MainScreen(
-    onOpenSearch: () -> Unit,
-    onOpenSettings: () -> Unit,
-) {
-    val context = LocalContext.current
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF9F9F9)),
-        verticalArrangement = Arrangement.Top,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Color(0xFF3D6EFF),
-                    shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp),
-                )
-                .padding(vertical = 20.dp, horizontal = 16.dp),
-        ) {
-            Text(
-                text = "Playlist maker",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        DrawerItem(icon = Icons.Default.Search, text = "Поиск") { onOpenSearch() }
-        DrawerItem(icon = Icons.Default.PlayArrow, text = "Плейлисты") {
-            Toast.makeText(context, "Кнопка нажата", Toast.LENGTH_SHORT).show()
-        }
-        DrawerItem(icon = Icons.Default.FavoriteBorder, text = "Избранное") {
-            Toast.makeText(context, "Кнопка нажата", Toast.LENGTH_SHORT).show()
-        }
-        DrawerItem(icon = Icons.Default.Settings, text = "Настройки") { onOpenSettings() }
-    }
-}
-
-@Composable
-fun DrawerItem(
-    icon: ImageVector,
-    text: String,
-    onClick: (() -> Unit)? = null,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick?.invoke() }
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = Color.Black.copy(alpha = 0.85f),
-            modifier = Modifier.size(22.dp),
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Text(
-            text = text,
-            color = Color.Black.copy(alpha = 0.9f),
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier.weight(1f),
-        )
     }
 }

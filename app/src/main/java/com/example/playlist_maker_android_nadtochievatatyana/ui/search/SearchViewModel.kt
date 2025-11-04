@@ -9,43 +9,46 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.lifecycle.ViewModelProvider
+import com.example.playlist_maker_android_nadtochievatatyana.creator.Creator
+import kotlinx.coroutines.flow.update
+import java.io.IOException
+
 
 class SearchViewModel(
-    private val repository: TracksRepository,
+    private val tracksRepository: TracksRepository,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<SearchState>(SearchState.Initial)
-    val state: StateFlow<SearchState> = _state.asStateFlow()
+    private val _searchScreenState = MutableStateFlow<SearchState>(SearchState.Initial)
+    val searchScreenState: StateFlow<SearchState> = _state.asStateFlow()
 
-    fun search(expression: String) {
-        val query = expression.trim()
+    fun search(whatSearch: String) {
+        val query = whatSearch.trim()
         if (query.isEmpty()) {
-            _state.value = SearchState.Initial
+            _searchScreenState.update { SearchState.Initial }
             return
         }
-
-        viewModelScope.launch {
-            _state.value = SearchState.Searching
-            val result = withContext(Dispatchers.IO) {
-                runCatching { repository.searchTracks(query) }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _searchScreenState.update { SearchState.Searching }
+                val tracks = tracksRepository.searchTracks(query)
+                _searchScreenState.update { SearchState.Success(tracks) }
+            } catch (error: IOException) {
+                _searchScreenState.update { SearchState.Fail(error.message.orEmpty()) }
             }
 
-            result.fold(
-                onSuccess = { tracks ->
-                    if (tracks.isEmpty()) {
-                        _state.value = SearchState.Fail(SearchError.EMPTY_RESULT)
-                    } else {
-                        _state.value = SearchState.Success(tracks)
+            fun reset() {
+                searchScreenState.value = SearchState.Initial
+            }
+            companion object {
+            fun getViewModelFactory(): ViewModelProvider.Factory =
+                object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        return SearchViewModel(Creator.getTracksRepository()) as T
                     }
-                },
-                onFailure = {
-                    _state.value = SearchState.Fail(SearchError.NETWORK)
-                },
-            )
+                }
         }
-    }
-
-    fun reset() {
-        _state.value = SearchState.Initial
+        }
     }
 }
