@@ -40,15 +40,15 @@ class SearchViewModel(
             fun reset() {
                 _searchScreenState.value = SearchState.Initial
             }
-            companion object {
-            fun getViewModelFactory(): ViewModelProvider.Factory =
-                object : ViewModelProvider.Factory {
-                    @Suppress("UNCHECKED_CAST")
-                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                        return SearchViewModel(Creator.getTracksRepository()) as T
-                    }
+        }
+    }
+    companion object {
+        fun getViewModelFactory(): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return SearchViewModel(Creator.getTracksRepository()) as T
                 }
-        }
-        }
+            }
     }
 }

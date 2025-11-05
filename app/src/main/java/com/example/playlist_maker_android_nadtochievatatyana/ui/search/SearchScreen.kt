@@ -119,9 +119,6 @@ fun SearchScreen(
             value = text,
             onValueChange = {
                 text = it
-                if (text.isBlank()) {
-                    viewModel.reset()
-                }
             },
             leadingIcon = {
                 Icon(

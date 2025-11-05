@@ -5,12 +5,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
-import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.SettingsScreen
-import com.example.playlist_maker_android_nadtochievatatyana.ui.activity.MainScreen
+import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.SettingsScreen
+import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.MainScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import com.example.playlist_maker_android_nadtochievatatyana.ui.settings.SettingsScreen
 
 
 
@@ -18,28 +17,16 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.settings.Setting
 fun PlaylistHost(navController: NavHostController) {
     val navigateUp: () -> Unit = { navController.navigateUp() }
 
-    val navigateToSearch: () -> Unit = {
-        navController.navigate(
-            AppScreen.Search.route,
-            navOptions { launchSingleTop = true },
-        )
-    }
-
-    val navigateToSettings: () -> Unit = {
-        navController.navigate(
-            AppScreen.Settings.route,
-            navOptions { launchSingleTop = true },
-        )
-    }
-
     NavHost(
         navController = navController,
         startDestination = AppScreen.Main.route,
     ) {
         composable(AppScreen.Main.route) {
             MainScreen(
-                onOpenSearch = navigateToSearch,
-                onOpenSettings = navigateToSettings,
+                onOpenSearch = {navController.navigate(AppScreen.Search.route)},
+                onOpenPlaylists = {},
+                onOpenFavorites = {},
+                onOpenSettings = {navController.navigate(AppScreen.Settings.route)},
             )
         }
         composable(AppScreen.Search.route) {
