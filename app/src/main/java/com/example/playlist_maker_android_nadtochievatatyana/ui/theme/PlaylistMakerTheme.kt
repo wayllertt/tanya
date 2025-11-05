@@ -1,9 +1,11 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
+import androidx.compose.material.Shapes
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
