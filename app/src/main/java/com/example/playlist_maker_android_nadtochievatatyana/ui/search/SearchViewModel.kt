@@ -37,11 +37,13 @@ class SearchViewModel(
                 _searchScreenState.update { SearchState.Fail(error.message.orEmpty()) }
             }
 
-            fun reset() {
-                _searchScreenState.value = SearchState.Initial
-            }
+
         }
     }
+    fun reset() {
+        _searchScreenState.value = SearchState.Initial
+    }
+
     companion object {
         fun getViewModelFactory(): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {

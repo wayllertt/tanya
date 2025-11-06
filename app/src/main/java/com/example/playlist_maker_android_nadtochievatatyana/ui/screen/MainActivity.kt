@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import com.example.playlist_maker_android_nadtochievatatyana.ui.navigation.PlaylistHost
@@ -25,8 +26,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PlaylistMakerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    PlaylistHost()
+                val navController = rememberNavController()
+                Scaffold(modifier = Modifier.fillMaxSize()) { _ ->
+                    PlaylistHost(navController = navController)
                 }
             }
         }
