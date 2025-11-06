@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.example.playlist_maker_android_nadtochievatatyana.R
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -63,35 +63,36 @@ fun MainScreen(
     onOpenSettings: () -> Unit
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF9F9F9))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFF9F9F9))
         ) {
-            Header(title = stringResource("playlist_maker")
+            Header(title = stringResource(id = R.string.playlist_maker))
 
             Spacer(Modifier.height(24.dp))
 
             MainMenuItem(
-                icon = Icons.Default.Search,
-                text = "Поиск",
+                icon = Icons.Filled.Search,
+                text = stringResource(id = R.string.search_title),
                 onClick = onOpenSearch
             )
-            Divider()
+
             MainMenuItem(
-                icon = Icons.Default.PlayArrow,
-                text = "Плейлисты",
+                icon = Icons.Filled.PlayArrow,
+                text = stringResource(id = R.string.menu_playlists),
                 onClick = onOpenPlaylists
             )
-            Divider()
+
             MainMenuItem(
-                icon = Icons.Default.Favorite,
-                text = "Избранное",
+                icon = Icons.Filled.Favorite,
+                text = stringResource(id = R.string.menu_favorites),
                 onClick = onOpenFavorites
             )
-            Divider()
+
             MainMenuItem(
-                icon = Icons.Default.Settings,
-                text = "Настройки",
+                icon = Icons.Filled.Settings,
+                text = stringResource(id = R.string.settings_title),
                 onClick = onOpenSettings
             )
         }

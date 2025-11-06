@@ -26,4 +26,7 @@
     <string name="content_description_back">Назад</string>
     <string name="content_description_search">Начать поиск</string>
     <string name="content_description_clear">Очистить запрос</string>
+
+    <string name="menu_playlists">Плейлисты</string>
+    <string name="menu_favorites">Избранные</string>
 </resources>
