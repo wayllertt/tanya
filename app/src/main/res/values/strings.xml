@@ -23,9 +23,31 @@
     <string name="search_error_empty">Ничего не найдено</string>
     <string name="search_error_network">Произошла ошибка. Попробуйте ещё раз</string>
     <string name="search_track_selected">Трек «%1$s» выбран</string>
+    <string name="search_prompt">Введите строку для поиска</string>
+    <string name="search_error_unknown">Произошла неизвестная ошибка</string>
     <string name="content_description_back">Назад</string>
     <string name="content_description_search">Начать поиск</string>
     <string name="content_description_clear">Очистить запрос</string>
+    <string name="content_description_track">Трек %1$s</string>
+
+    <string name="track_vladivostok_2000">Владивосток 2000</string>
+    <string name="artist_mumiy_troll">Мумий Троль</string>
+    <string name="track_gruppa_krovi">Группа крови</string>
+    <string name="artist_kino">Кино</string>
+    <string name="track_ne_smotri_nazad">Не смотри назад</string>
+    <string name="artist_ariya">Ария</string>
+    <string name="track_zvezda_po_imeni_solnce">Звезда по имени Солнце</string>
+    <string name="track_london">Лондон</string>
+    <string name="artist_akvarium">Аквариум</string>
+    <string name="track_na_zare">На заре</string>
+    <string name="artist_alyans">Альянс</string>
+    <string name="track_peremen">Перемен</string>
+    <string name="track_rozovyy_flamingo">Розовый фламинго</string>
+    <string name="artist_splin">Сплин</string>
+    <string name="track_tancevat">Танцевать</string>
+    <string name="artist_melnitsa">Мельница</string>
+    <string name="track_chernyy_bumer">Чёрный бумер</string>
+    <string name="artist_serega">Серега</string>
 
     <string name="menu_playlists">Плейлисты</string>
     <string name="menu_favorites">Избранные</string>

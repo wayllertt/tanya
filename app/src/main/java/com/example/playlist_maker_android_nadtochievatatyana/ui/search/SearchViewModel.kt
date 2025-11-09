@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.search
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.playlist_maker_android_nadtochievatatyana.domain.api.TracksRepository
@@ -8,12 +9,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.example.playlist_maker_android_nadtochievatatyana.R
+import com.example.playlist_maker_android_nadtochievatatyana.creator.Creator
 import kotlinx.coroutines.withContext
 import androidx.lifecycle.ViewModelProvider
-import com.example.playlist_maker_android_nadtochievatatyana.creator.Creator
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.io.IOException
-
 
 class SearchViewModel(
     private val tracksRepository: TracksRepository,
@@ -34,10 +36,10 @@ class SearchViewModel(
                 val tracks = tracksRepository.searchTracks(query)
                 _searchScreenState.update { SearchState.Success(tracks) }
             } catch (error: IOException) {
-                _searchScreenState.update { SearchState.Fail(error.message.orEmpty()) }
+                _searchScreenState.update { SearchState.Fail(R.string.search_error_network) }
+            } catch (_: Exception) {
+                _searchScreenState.update { SearchState.Fail(R.string.search_error_unknown) }
             }
-
-
         }
     }
     fun reset() {
@@ -45,11 +47,12 @@ class SearchViewModel(
     }
 
     companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory =
+        fun getViewModelFactory(context: Context): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return SearchViewModel(Creator.getTracksRepository()) as T
+                    val appContext = context.applicationContext
+                    return SearchViewModel(Creator.getTracksRepository(appContext)) as T
                 }
             }
     }

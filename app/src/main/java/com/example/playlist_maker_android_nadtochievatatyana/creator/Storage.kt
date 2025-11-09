@@ -1,58 +1,60 @@
 package com.example.playlist_maker_android_nadtochievatatyana.creator
 
+import android.content.res.Resources
+import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.data.dto.TrackDto
 import java.util.Locale
 
-class Storage {
+class Storage(private val resources: Resources) {
     private val listTracks = listOf(
         TrackDto(
-            trackName = "Владивосток 2000",
-            artistName = "Мумий Троль",
+            trackName = resources.getString(R.string.track_vladivostok_2000),
+            artistName = resources.getString(R.string.artist_mumiy_troll),
             trackTimeMillis = 158000,
         ),
         TrackDto(
-            trackName = "Группа крови",
-            artistName = "Кино",
+            trackName = resources.getString(R.string.track_gruppa_krovi),
+            artistName = resources.getString(R.string.artist_kino),
             trackTimeMillis = 283000,
         ),
         TrackDto(
-            trackName = "Не смотри назад",
-            artistName = "Ария",
+            trackName = resources.getString(R.string.track_ne_smotri_nazad),
+            artistName = resources.getString(R.string.artist_ariya),
             trackTimeMillis = 312000,
         ),
         TrackDto(
-            trackName = "Звезда по имени Солнце",
-            artistName = "Кино",
+            trackName = resources.getString(R.string.track_zvezda_po_imeni_solnce),
+            artistName = resources.getString(R.string.artist_kino),
             trackTimeMillis = 225000,
         ),
         TrackDto(
-            trackName = "Лондон",
-            artistName = "Аквариум",
+            trackName = resources.getString(R.string.track_london),
+            artistName = resources.getString(R.string.artist_akvarium),
             trackTimeMillis = 272000,
         ),
         TrackDto(
-            trackName = "На заре",
-            artistName = "Альянс",
+            trackName = resources.getString(R.string.track_na_zare),
+            artistName = resources.getString(R.string.artist_alyans),
             trackTimeMillis = 230000,
         ),
         TrackDto(
-            trackName = "Перемен",
-            artistName = "Кино",
+            trackName = resources.getString(R.string.track_peremen),
+            artistName = resources.getString(R.string.artist_kino),
             trackTimeMillis = 296000,
         ),
         TrackDto(
-            trackName = "Розовый фламинго",
-            artistName = "Сплин",
+            trackName = resources.getString(R.string.track_rozovyy_flamingo),
+            artistName = resources.getString(R.string.artist_splin),
             trackTimeMillis = 195000,
         ),
         TrackDto(
-            trackName = "Танцевать",
-            artistName = "Мельница",
+            trackName = resources.getString(R.string.track_tancevat),
+            artistName = resources.getString(R.string.artist_melnitsa),
             trackTimeMillis = 222000,
         ),
         TrackDto(
-            trackName = "Чёрный бумер",
-            artistName = "Серега",
+            trackName = resources.getString(R.string.track_chernyy_bumer),
+            artistName = resources.getString(R.string.artist_serega),
             trackTimeMillis = 241000,
         ),
     )
