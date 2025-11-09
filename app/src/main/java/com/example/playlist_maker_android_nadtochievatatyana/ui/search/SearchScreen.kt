@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -93,7 +94,11 @@ fun SearchScreen(
     var text by remember { mutableStateOf("") }
     Column(
         modifier = modifier
-            .padding(top = 48.dp, start = 16.dp, end = 16.dp)
+            .padding(
+                top = dimensionResource(id = R.dimen.search_screen_content_padding_top),
+                start = dimensionResource(id = R.dimen.search_screen_content_padding_horizontal),
+                end = dimensionResource(id = R.dimen.search_screen_content_padding_horizontal),
+            )
             .fillMaxSize(),
     )
     {
@@ -151,7 +156,9 @@ fun SearchScreen(
                     itemsIndexed(tracks) { index, track ->
                         TrackListItem(track = track)
                         if (index != tracks.lastIndex) {
-                            HorizontalDivider(thickness = 0.5.dp)
+                            HorizontalDivider(
+                                thickness = dimensionResource(id = R.dimen.search_screen_divider_thickness)
+                            )
                         }
 
                     }

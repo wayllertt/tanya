@@ -29,7 +29,7 @@
     <string name="content_description_search">Начать поиск</string>
     <string name="content_description_clear">Очистить запрос</string>
     <string name="content_description_track">Трек %1$s</string>
-
+    <string name="share_mime_type">text/plain</string>
     <string name="track_vladivostok_2000">Владивосток 2000</string>
     <string name="artist_mumiy_troll">Мумий Троль</string>
     <string name="track_gruppa_krovi">Группа крови</string>
@@ -48,7 +48,7 @@
     <string name="artist_melnitsa">Мельница</string>
     <string name="track_chernyy_bumer">Чёрный бумер</string>
     <string name="artist_serega">Серега</string>
-
+    <string name="mailto_scheme">mailto:%1$s</string>
     <string name="menu_playlists">Плейлисты</string>
     <string name="menu_favorites">Избранные</string>
 </resources>

@@ -27,9 +27,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_nadtochievatatyana.R
 
@@ -40,6 +40,7 @@ fun SettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
 
     val shareText = stringResource(R.string.share_text)
+    val shareMimeType = stringResource(R.string.share_mime_type)
     val emailTo = stringResource(R.string.dev_email_to)
     val emailSubject = stringResource(R.string.dev_email_subject)
     val emailBody = stringResource(R.string.dev_email_body)
@@ -73,7 +74,9 @@ fun SettingsScreen(onBack: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 12.dp)
+                    .padding(
+                        vertical = dimensionResource(id = R.dimen.settings_screen_theme_row_vertical_padding)
+                    )
             ) {
                 Text(
                     text = stringResource(R.string.dark_theme),
@@ -90,7 +93,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                     .fillMaxWidth()
                     .clickable {
                         val shareIntent = Intent(Intent.ACTION_SEND).apply {
-                            type = "text/plain"
+                            type = shareMimeType
                             putExtra(Intent.EXTRA_TEXT, shareText)
                         }
                         val chooser = Intent.createChooser(
@@ -107,12 +110,15 @@ fun SettingsScreen(onBack: () -> Unit) {
                             ).show()
                         }
                     }
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.settings_screen_row_horizontal_padding),
+                        vertical = dimensionResource(id = R.dimen.settings_screen_row_vertical_padding),
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = stringResource(R.string.btn_share_app),
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.settings_screen_text_size).value.sp,
                     modifier = Modifier.weight(1f),
                 )
                 Icon(
@@ -127,7 +133,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        val mailUri = Uri.parse("mailto:$emailTo")
+                        val mailUri = Uri.parse(stringResource(R.string.mailto_scheme, emailTo))
                         val emailIntent = Intent(Intent.ACTION_SENDTO, mailUri).apply {
                             putExtra(Intent.EXTRA_SUBJECT, emailSubject)
                             putExtra(Intent.EXTRA_TEXT, emailBody)
@@ -142,12 +148,15 @@ fun SettingsScreen(onBack: () -> Unit) {
                             ).show()
                         }
                     }
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.settings_screen_row_horizontal_padding),
+                        vertical = dimensionResource(id = R.dimen.settings_screen_row_vertical_padding),
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = stringResource(R.string.btn_write_to_devs),
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.settings_screen_text_size).value.sp,
                     modifier = Modifier.weight(1f),
                 )
                 Icon(
@@ -173,12 +182,15 @@ fun SettingsScreen(onBack: () -> Unit) {
                             ).show()
                         }
                     }
-                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.settings_screen_row_horizontal_padding),
+                        vertical = dimensionResource(id = R.dimen.settings_screen_row_vertical_padding),
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = stringResource(R.string.btn_user_agreement),
-                    fontSize = 16.sp,
+                    fontSize = dimensionResource(id = R.dimen.settings_screen_text_size).value.sp,
                     modifier = Modifier.weight(1f),
                 )
                 Icon(

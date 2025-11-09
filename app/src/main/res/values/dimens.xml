@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_screen_spacing_between_items">24dp</dimen>
+    <dimen name="main_screen_header_corner_radius">12dp</dimen>
+    <dimen name="main_screen_header_horizontal_padding">16dp</dimen>
+    <dimen name="main_screen_header_vertical_padding">30dp</dimen>
+    <dimen name="main_screen_menu_item_padding">20dp</dimen>
+    <dimen name="main_screen_menu_item_icon_size">24dp</dimen>
+    <dimen name="main_screen_menu_item_icon_spacing">15dp</dimen>
+    <dimen name="main_screen_header_text_size">20sp</dimen>
+    <dimen name="main_screen_menu_item_text_size">20sp</dimen>
+    <dimen name="search_screen_content_padding_top">48dp</dimen>
+    <dimen name="search_screen_content_padding_horizontal">16dp</dimen>
+    <dimen name="search_screen_divider_thickness">0.5dp</dimen>
+    <dimen name="settings_screen_theme_row_vertical_padding">12dp</dimen>
+    <dimen name="settings_screen_row_horizontal_padding">16dp</dimen>
+    <dimen name="settings_screen_row_vertical_padding">14dp</dimen>
+    <dimen name="settings_screen_text_size">16sp</dimen>
+</resources>

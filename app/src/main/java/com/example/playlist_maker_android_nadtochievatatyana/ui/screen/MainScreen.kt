@@ -2,36 +2,6 @@ package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.playlist_maker_android_nadtochievatatyana.R
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,18 +12,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
+import com.example.playlist_maker_android_nadtochievatatyana.R
 
 @Composable
 fun MainScreen(
@@ -70,7 +47,11 @@ fun MainScreen(
         ) {
             Header(title = stringResource(id = R.string.playlist_maker))
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(
+                Modifier.height(
+                    dimensionResource(id = R.dimen.main_screen_spacing_between_items)
+                )
+            )
 
             MainMenuItem(
                 icon = Icons.Filled.Search,
@@ -106,32 +87,45 @@ private fun Header(title: String) {
         modifier = Modifier
             .background(
                 color = Color(0xFF3D6EFF),
-                shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                shape = RoundedCornerShape(
+                    bottomStart = dimensionResource(id = R.dimen.main_screen_header_corner_radius),
+                    bottomEnd = dimensionResource(id = R.dimen.main_screen_header_corner_radius),
+                )
             )
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 30.dp)
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.main_screen_header_horizontal_padding),
+                vertical = dimensionResource(id = R.dimen.main_screen_header_vertical_padding),
+            )
     ) {
+        val headerTextSize = dimensionResource(id = R.dimen.main_screen_header_text_size)
         Text(
             text = title,
             color = Color.White,
-            fontSize = 20.sp,
+            fontSize = headerTextSize.value.sp,
             fontWeight = FontWeight.Bold
         )
     }
 }
 
 @Composable
-fun MainMenuItem(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String, onClick: () -> Unit) {
+fun MainMenuItem(icon: ImageVector, text: String, onClick: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(20.dp)
+            .padding(dimensionResource(id = R.dimen.main_screen_menu_item_padding))
     ) {
-        Icon(icon, contentDescription = text, tint = Color.Black, modifier = Modifier.size(24.dp))
-        Spacer(Modifier.width(15.dp))
-        Text(text, fontSize = 20.sp)
+        Icon(
+            icon,
+            contentDescription = text,
+            tint = Color.Black,
+            modifier = Modifier.size(dimensionResource(id = R.dimen.main_screen_menu_item_icon_size))
+        )
+        Spacer(Modifier.width(dimensionResource(id = R.dimen.main_screen_menu_item_icon_spacing)))
+        val menuItemTextSize = dimensionResource(id = R.dimen.main_screen_menu_item_text_size)
+        Text(text, fontSize = menuItemTextSize.value.sp)
     }
 }
 
