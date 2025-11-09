@@ -1,6 +1,5 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
-
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -12,12 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -58,7 +57,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            Icons.Filled.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.content_description_back),
                         )
                     }
@@ -82,9 +81,9 @@ fun SettingsScreen(onBack: () -> Unit) {
                 )
                 Switch(checked = false, onCheckedChange = null, enabled = false)
             }
-            Divider()
+            HorizontalDivider()
 
-            Divider()
+            HorizontalDivider()
 
             Row(
                 modifier = Modifier
@@ -122,7 +121,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 )
             }
 
-            Divider()
+            HorizontalDivider()
 
             Row(
                 modifier = Modifier
@@ -157,7 +156,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                 )
             }
 
-            Divider()
+            HorizontalDivider()
 
             Row(
                 modifier = Modifier
@@ -183,12 +182,12 @@ fun SettingsScreen(onBack: () -> Unit) {
                     modifier = Modifier.weight(1f),
                 )
                 Icon(
-                    imageVector = Icons.Filled.ArrowForward,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                     contentDescription = null,
                 )
             }
 
-            Divider()
+            HorizontalDivider()
         }
     }
 }

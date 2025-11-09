@@ -18,7 +18,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.theme.PlaylistMa
 
 class MainActivity : ComponentActivity() {
     private val searchViewModel by viewModels<SearchViewModel> {
-        SearchViewModel.getViewModelFactory()
+        SearchViewModel.getViewModelFactory(applicationContext)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
