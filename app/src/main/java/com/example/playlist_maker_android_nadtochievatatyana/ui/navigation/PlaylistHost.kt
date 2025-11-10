@@ -10,7 +10,8 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.MainScree
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-
+import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.FavoritesScreen
+import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.PlaylistsScreen
 
 
 @Composable
@@ -24,14 +25,24 @@ fun PlaylistHost(navController: NavHostController) {
         composable(AppScreen.Main.route) {
             MainScreen(
                 onOpenSearch = {navController.navigate(AppScreen.Search.route)},
-                onOpenPlaylists = {},
-                onOpenFavorites = {},
+                onOpenPlaylists = {navController.navigate(route=AppScreen.Playlists.route)},
+                onOpenFavorites = {navController.navigate(route=AppScreen.Favorites.route)},
                 onOpenSettings = {navController.navigate(AppScreen.Settings.route)},
             )
         }
         composable(AppScreen.Search.route) {
             SearchRoute(
                 modifier = Modifier.fillMaxSize(),
+            )
+        }
+        composable(AppScreen.Settings.route) {
+            PlaylistsScreen(
+                onBack = navigateUp,
+            )
+        }
+        composable(AppScreen.Settings.route) {
+            FavoritesScreen(
+                onBack = navigateUp,
             )
         }
         composable(AppScreen.Settings.route) {

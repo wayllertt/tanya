@@ -4,4 +4,8 @@ enum class AppScreen(val route: String) {
     Main("main"),
     Search("search"),
     Settings("settings"),
+
+    Favorites( "favorites"),
+
+    Playlists(route = "playlists")
 }

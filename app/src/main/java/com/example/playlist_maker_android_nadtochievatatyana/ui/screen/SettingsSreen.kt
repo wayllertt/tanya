@@ -82,11 +82,10 @@ fun SettingsScreen(onBack: () -> Unit) {
                 Text(
                     text = stringResource(R.string.dark_theme),
                     modifier = Modifier.weight(1f),
+                    .clickable{},
                 )
                 Switch(checked = false, onCheckedChange = null, enabled = false)
             }
-            HorizontalDivider()
-
             HorizontalDivider()
 
             Row(
