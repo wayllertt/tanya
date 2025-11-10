@@ -78,11 +78,11 @@ fun SettingsScreen(onBack: () -> Unit) {
                     .padding(
                         vertical = dimensionResource(id = R.dimen.settings_screen_theme_row_vertical_padding)
                     )
+                    .clickable{},
             ) {
                 Text(
                     text = stringResource(R.string.dark_theme),
                     modifier = Modifier.weight(1f),
-                    .clickable{},
                 )
                 Switch(checked = false, onCheckedChange = null, enabled = false)
             }
