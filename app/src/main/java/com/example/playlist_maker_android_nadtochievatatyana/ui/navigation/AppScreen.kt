@@ -1,5 +1,7 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.navigation
 
+private const val TRACK_DETAILS_BASE_ROUTE = "track_details"
+
 sealed class AppScreen(val route: String) {
     data object Main : AppScreen("main")
     data object Search : AppScreen("search")
@@ -7,8 +9,8 @@ sealed class AppScreen(val route: String) {
     data object Favorites : AppScreen("favorites")
     data object Playlists : AppScreen("playlists")
     data object CreatePlaylist : AppScreen("create_playlist")
-    data object TrackDetails : AppScreen("$baseRoute/{trackId}/{trackName}/{artistName}/{trackTime}") {
-        const val baseRoute: String = "track_details"
+    data object TrackDetails : AppScreen("$TRACK_DETAILS_BASE_ROUTE/{trackId}/{trackName}/{artistName}/{trackTime}") {
+        const val baseRoute: String = TRACK_DETAILS_BASE_ROUTE
     }
 
     companion object
