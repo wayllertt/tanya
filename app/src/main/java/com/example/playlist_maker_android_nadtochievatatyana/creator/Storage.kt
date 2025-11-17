@@ -63,7 +63,8 @@ class Storage(private val resources: Resources) {
         val normalizedRequest = request.normalizeForSearch()
         if (normalizedRequest.isEmpty()) return emptyList()
         return listTracks.filter { track ->
-            track.trackName.normalizeForSearch().contains(normalizedRequest)
+            track.trackName.normalizeForSearch().contains(normalizedRequest) ||
+                    track.artistName.normalizeForSearch().contains(normalizedRequest)
         }
     }
     private fun String.normalizeForSearch(): String =

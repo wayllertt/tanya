@@ -37,6 +37,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 
+import androidx.compose.material.icons.filled.Close
+
 @Composable
 fun TrackListItem(track: Track) {
     Row(
@@ -106,6 +108,11 @@ fun SearchScreen(
             value = text,
             onValueChange = {
                 text = it
+                if (it.isBlank()) {
+                    viewModel.reset()
+                } else {
+                    viewModel.search(it)
+                }
             },
             leadingIcon = {
                 Icon(
@@ -115,6 +122,18 @@ fun SearchScreen(
                     imageVector = Icons.Filled.Search,
                     contentDescription = stringResource(R.string.content_description_search),
                 )
+            },
+            trailingIcon = {
+                if (text.isNotBlank()) {
+                    Icon(
+                        modifier = Modifier.clickable {
+                            text = ""
+                            viewModel.reset()
+                        },
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.content_description_clear),
+                    )
+                }
             },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,

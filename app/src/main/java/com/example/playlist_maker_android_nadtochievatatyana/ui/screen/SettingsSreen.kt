@@ -32,6 +32,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_nadtochievatatyana.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,19 +76,25 @@ fun SettingsScreen(onBack: () -> Unit) {
                 .padding(innerPadding)
                 .fillMaxSize(),
         ) {
+            var isDarkThemeEnabled by rememberSaveable { mutableStateOf(false) }
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        vertical = dimensionResource(id = R.dimen.settings_screen_theme_row_vertical_padding)
+                        horizontal = dimensionResource(id = R.dimen.settings_screen_row_horizontal_padding),
+                        vertical = dimensionResource(id = R.dimen.settings_screen_row_vertical_padding),
                     )
-                    .clickable{},
+                    .clickable { isDarkThemeEnabled = !isDarkThemeEnabled },
             ) {
                 Text(
                     text = stringResource(R.string.dark_theme),
                     modifier = Modifier.weight(1f),
                 )
-                Switch(checked = false, onCheckedChange = null, enabled = false)
+                Switch(
+                    checked = isDarkThemeEnabled,
+                    onCheckedChange = { isDarkThemeEnabled = it },
+                )
             }
             HorizontalDivider()
 

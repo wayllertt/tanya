@@ -14,14 +14,24 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +39,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_nadtochievatatyana.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     onOpenSearch: () -> Unit,
@@ -39,47 +52,96 @@ fun MainScreen(
     onOpenFavorites: () -> Unit,
     onOpenSettings: () -> Unit
 ) {
-    Surface(modifier = Modifier.fillMaxSize()) {
-        Column(
+    var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButton = {
+            FloatingActionButton(onClick = { isBottomSheetVisible = true }) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.fab_content_description),
+                    tint = Color.White
+                )
+            }
+        }
+    ) { paddingValues ->
+        Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF9F9F9))
+                .padding(paddingValues)
         ) {
-            Header(title = stringResource(id = R.string.playlist_maker))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFF9F9F9))
+            ) {
+                Header(title = stringResource(id = R.string.playlist_maker))
 
-            Spacer(
-                Modifier.height(
-                    dimensionResource(id = R.dimen.main_screen_spacing_between_items)
+                Spacer(
+                    Modifier.height(
+                        dimensionResource(id = R.dimen.main_screen_spacing_between_items)
+                    )
                 )
-            )
 
-            MainMenuItem(
-                icon = Icons.Filled.Search,
-                text = stringResource(id = R.string.search_title),
-                onClick = onOpenSearch
-            )
+                MainMenuItem(
+                    icon = Icons.Filled.Search,
+                    text = stringResource(id = R.string.search_title),
+                    onClick = onOpenSearch
+                )
 
-            MainMenuItem(
-                icon = Icons.Filled.PlayArrow,
-                text = stringResource(id = R.string.menu_playlists),
-                onClick = onOpenPlaylists
-            )
+                MainMenuItem(
+                    icon = Icons.Filled.PlayArrow,
+                    text = stringResource(id = R.string.menu_playlists),
+                    onClick = onOpenPlaylists
+                )
 
-            MainMenuItem(
-                icon = Icons.Filled.Favorite,
-                text = stringResource(id = R.string.menu_favorites),
-                onClick = onOpenFavorites
-            )
+                MainMenuItem(
+                    icon = Icons.Filled.Favorite,
+                    text = stringResource(id = R.string.menu_favorites),
+                    onClick = onOpenFavorites
+                )
 
-            MainMenuItem(
-                icon = Icons.Filled.Settings,
-                text = stringResource(id = R.string.settings_title),
-                onClick = onOpenSettings
-            )
+                MainMenuItem(
+                    icon = Icons.Filled.Settings,
+                    text = stringResource(id = R.string.settings_title),
+                    onClick = onOpenSettings
+                )
+            }
         }
+    }
+        if (isBottomSheetVisible) {
+            ModalBottomSheet(
+                onDismissRequest = { isBottomSheetVisible = false },
+                sheetState = sheetState
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp, vertical = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.bottom_sheet_title),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Text(
+                        text = stringResource(id = R.string.bottom_sheet_message),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
 
     }
 }
+
 
 @Composable
 private fun Header(title: String) {
