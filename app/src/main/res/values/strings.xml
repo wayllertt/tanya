@@ -55,4 +55,18 @@
     <string name="fab_content_description">Добавить плейлист</string>
     <string name="bottom_sheet_title">Создание плейлиста</string>
     <string name="bottom_sheet_message">Это панель BottomSheet</string>
+
+    <string name="playlists_tracks_count">%1$d трек(ов)</string>
+    <string name="empty_playlists">Плейлистов пока нет</string>
+    <string name="create_playlist_title">Новый плейлист</string>
+    <string name="playlist_name_hint">Название плейлиста</string>
+    <string name="playlist_description_hint">Описание</string>
+    <string name="save_playlist">Сохранить</string>
+    <string name="track_details_title">Детали трека</string>
+    <string name="track_time_template">Длительность: %1$s</string>
+    <string name="track_details_add_to_favorites">Добавить в избранное</string>
+    <string name="track_details_add_to_playlist">Добавить в плейлист</string>
+    <string name="modal_playlists_title">Выберите плейлист</string>
+    <string name="no_playlists_for_track">У вас ещё нет плейлистов</string>
+    <string name="empty_favorites">В избранном ещё нет треков</string>
 </resources>

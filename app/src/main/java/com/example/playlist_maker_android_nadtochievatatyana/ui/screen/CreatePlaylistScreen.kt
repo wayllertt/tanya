@@ -1,42 +1,42 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.playlist_maker_android_nadtochievatatyana.R
-import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
-import com.example.playlist_maker_android_nadtochievatatyana.ui.search.TrackListItem
 
 @Composable
-fun FavoritesScreen(
+fun CreatePlaylistScreen(
     onBack: () -> Unit,
-    onTrackClick: (Track) -> Unit,
     playlistViewModel: PlaylistViewModel = viewModel(
         factory = PlaylistViewModel.getViewModelFactory(LocalContext.current),
     ),
 ) {
-    val favoriteTracks = playlistViewModel.favoriteList.collectAsStateWithLifecycle(emptyList())
+    var playlistName by rememberSaveable { mutableStateOf("") }
+    var playlistDescription by rememberSaveable { mutableStateOf("") }
+    val canSave = playlistName.isNotBlank()
 
     Scaffold(
         topBar = {
@@ -52,28 +52,44 @@ fun FavoritesScreen(
                         contentDescription = stringResource(id = R.string.content_description_back),
                     )
                 }
-                Text(text = stringResource(id = R.string.menu_favorites), fontWeight = FontWeight.Bold)
+                Text(text = stringResource(id = R.string.create_playlist_title))
             }
         },
     ) { innerPadding ->
-        if (favoriteTracks.value.isEmpty()) {
-            Box(
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            OutlinedTextField(
+                value = playlistName,
+                onValueChange = { playlistName = it },
                 modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(text = stringResource(id = R.string.empty_favorites))
-            }
-        } else {
-            LazyColumn(
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                placeholder = { Text(text = stringResource(id = R.string.playlist_name_hint)) },
+            )
+            OutlinedTextField(
+                value = playlistDescription,
+                onValueChange = { playlistDescription = it },
                 modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize(),
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                placeholder = { Text(text = stringResource(id = R.string.playlist_description_hint)) },
+            )
+            Button(
+                onClick = {
+                    playlistViewModel.createNewPlaylist(playlistName.trim(), playlistDescription.trim())
+                    onBack()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                enabled = canSave,
             ) {
-                items(favoriteTracks.value) { track ->
-                    TrackListItem(track = track, onClick = { onTrackClick(track) })
-                }
+                Text(text = stringResource(id = R.string.save_playlist))
             }
         }
     }
