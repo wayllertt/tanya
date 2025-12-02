@@ -41,6 +41,20 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardActions
+import androidx.compose.ui.text.input.KeyboardOptions
+import androidx.compose.ui.text.style.TextOverflow
+import coil.compose.AsyncImage
 
 @Composable
 fun TrackListItem(
@@ -61,23 +75,32 @@ fun TrackListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Image(
+        AsyncImage(
             painter = painterResource(id = R.drawable.ic_music),
+            modifier = Modifier
+                .size(64.dp)
+                .clip(shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
+            model = track.artworkUrl100,
             contentDescription = stringResource(
                 R.string.content_description_track,
                 track.trackName,
             ),
+            placeholder = painterResource(id = R.drawable.ic_music),
+            error = painterResource(id = R.drawable.ic_music),
+            fallback = painterResource(id = R.drawable.ic_music),
+            contentScale = ContentScale.Crop,
         )
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 12.dp),
             horizontalAlignment = Alignment.Start,
         ) {
-            Text(track.trackName, fontWeight = FontWeight.Bold)
-            Text(track.artistName)
+            Text(track.trackName, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(track.artistName, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
         Column(
-            modifier = Modifier.weight(1f),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.End,
         ) {
             Text(track.trackTime)
         }
@@ -111,6 +134,7 @@ fun SearchScreen(
 ) {
     val screenState by viewModel.searchScreenState.collectAsState()
     var text by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Scaffold { innerPadding ->
         Column(
@@ -152,6 +176,7 @@ fun SearchScreen(
                 leadingIcon = {
                     Icon(
                         modifier = Modifier.clickable(enabled = text.isNotBlank()) {
+                            focusManager.clearFocus()
                             viewModel.search(text)
                         },
                         imageVector = Icons.Filled.Search,
@@ -164,6 +189,7 @@ fun SearchScreen(
                             modifier = Modifier.clickable {
                                 text = ""
                                 viewModel.reset()
+                                focusManager.clearFocus()
                             },
                             imageVector = Icons.Filled.Close,
                             contentDescription = stringResource(R.string.content_description_clear),
@@ -172,6 +198,11 @@ fun SearchScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = {
+                    focusManager.clearFocus()
+                    viewModel.search(text)
+                }),
                 placeholder = {
                     Text(text = stringResource(R.string.search_placeholder))
                 },
@@ -209,7 +240,14 @@ fun SearchScreen(
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.Center,
                         ) {
+                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_placeholder_empty),
+                                    contentDescription = null,
+                                )
+                                Spacer(modifier = Modifier.height(12.dp))
                             Text(text = stringResource(id = R.string.search_error_empty))
+                        }
                         }
                     } else {
                         LazyColumn(
@@ -238,7 +276,21 @@ fun SearchScreen(
                             .fillMaxWidth(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        Text(text = stringResource(error))
+                        Column(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_placeholder_error),
+                                contentDescription = null,
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(text = stringResource(error))
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(onClick = viewModel::repeatLastSearch) {
+                                Text(text = stringResource(id = R.string.search_action_retry))
+                            }
+                        }
                     }
                 }
             }

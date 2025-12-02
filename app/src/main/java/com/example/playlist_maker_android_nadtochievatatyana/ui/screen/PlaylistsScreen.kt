@@ -73,6 +73,7 @@ fun PlaylistListItem(
 fun PlaylistsScreen(
     onBack: () -> Unit,
     onCreatePlaylist: () -> Unit,
+    onPlaylistClick: (Playlist) -> Unit,
     playlistViewModel: PlaylistViewModel = viewModel(
         factory = PlaylistViewModel.getViewModelFactory(LocalContext.current),
     ),
@@ -131,7 +132,7 @@ fun PlaylistsScreen(
                         .padding(horizontal = 16.dp),
                 ) {
                     items(playlistsState.value) { playlist ->
-                        PlaylistListItem(playlist = playlist) {}
+                        PlaylistListItem(playlist = playlist) { onPlaylistClick(playlist) }
                         HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
                     }
                 }

@@ -17,6 +17,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.Playlists
 import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.SettingsScreen
 import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.TrackDetailsRoute
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.SearchRoute
+import com.example.playlist_maker_android_nadtochievatatyana.ui.screen.PlaylistRoute
 
 @Composable
 fun PlaylistHost(navController: NavHostController) {
@@ -47,11 +48,29 @@ fun PlaylistHost(navController: NavHostController) {
             PlaylistsScreen(
                 onBack = navigateUp,
                 onCreatePlaylist = { navController.navigate(AppScreen.CreatePlaylist.route) },
+                onPlaylistClick = { playlist ->
+                    navController.navigate(AppScreen.playlistRoute(playlist.id))
+                },
             )
         }
         composable(AppScreen.CreatePlaylist.route) {
             CreatePlaylistScreen(
                 onBack = navigateUp,
+            )
+        }
+        composable(
+            route = AppScreen.Playlist.route,
+            arguments = listOf(
+                navArgument("playlistId") { type = NavType.LongType },
+            ),
+        ) { backStackEntry ->
+            val playlistId = backStackEntry.arguments?.getLong("playlistId") ?: 0L
+            PlaylistRoute(
+                playlistId = playlistId,
+                onBack = navigateUp,
+                onTrackClick = { track ->
+                    navController.navigate(AppScreen.trackDetailsRoute(track))
+                },
             )
         }
         composable(AppScreen.Favorites.route) {
@@ -96,4 +115,8 @@ fun AppScreen.Companion.trackDetailsRoute(track: Track): String {
     val encodedArtist = Uri.encode(track.artistName)
     val encodedTime = Uri.encode(track.trackTime)
     return "${AppScreen.TrackDetails.baseRoute}/${track.id}/$encodedName/$encodedArtist/$encodedTime"
+}
+
+fun AppScreen.Companion.playlistRoute(playlistId: Long): String {
+    return "${AppScreen.Playlist.baseRoute}/$playlistId"
 }

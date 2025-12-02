@@ -11,7 +11,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.domain.api.TracksRe
 object Creator {
     fun getTracksRepository(context: Context): TracksRepository {
         return TracksRepositoryImpl(
-            networkClient = RetrofitNetworkClient(Storage(context.resources)),
+            networkClient = RetrofitNetworkClient(),
             database = DatabaseProvider.database,
         )
     }

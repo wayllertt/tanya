@@ -9,6 +9,9 @@ sealed class AppScreen(val route: String) {
     data object Favorites : AppScreen("favorites")
     data object Playlists : AppScreen("playlists")
     data object CreatePlaylist : AppScreen("create_playlist")
+    data object Playlist : AppScreen("playlist/{playlistId}") {
+        const val baseRoute: String = "playlist"
+    }
     data object TrackDetails : AppScreen("$TRACK_DETAILS_BASE_ROUTE/{trackId}/{trackName}/{artistName}/{trackTime}") {
         const val baseRoute: String = TRACK_DETAILS_BASE_ROUTE
     }

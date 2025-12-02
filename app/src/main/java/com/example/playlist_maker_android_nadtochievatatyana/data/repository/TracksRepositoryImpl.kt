@@ -10,6 +10,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlin.math.abs
 
+class ResponseCodeException(val code: Int) : Exception()
+
 class TracksRepositoryImpl(
     private val networkClient: NetworkClient,
     private val database: DatabaseMock,
@@ -17,20 +19,22 @@ class TracksRepositoryImpl(
 
     override suspend fun searchTracks(expression: String): List<Track> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
-        delay(1000)
         if (response.resultCode != 200) {
-            throw java.io.IOException("Network error")
+            throw ResponseCodeException(response.resultCode)
         }
-        return (response as TracksSearchResponse).results.map {
-            val seconds = it.trackTimeMillis / 1000
+        return (response as TracksSearchResponse).results.map { dto ->
+            val trackTimeMillis = dto.trackTimeMillis ?: 0L
+            val seconds = trackTimeMillis / 1000
             val minutes = seconds / 60
             val trackTime = "%02d".format(minutes) + ":" + "%02d".format(seconds - minutes * 60)
-            val id = abs((it.trackName + it.artistName + it.trackTimeMillis).hashCode()).toLong()
+            val id = dto.trackId ?: abs((dto.trackName.orEmpty() + dto.artistName.orEmpty() + trackTimeMillis).hashCode()).toLong()
             Track(
                 id = id,
-                trackName = it.trackName,
-                artistName = it.artistName,
+                trackName = dto.trackName.orEmpty(),
+                artistName = dto.artistName.orEmpty(),
                 trackTime = trackTime,
+                artworkUrl100 = dto.artworkUrl100,
+                trackTimeMillis = dto.trackTimeMillis,
             )
         }
     }
@@ -65,6 +69,8 @@ class TracksRepositoryImpl(
             trackName = track.trackName,
             artistName = track.artistName,
             trackTime = track.trackTime,
+            artworkUrl100 = track.artworkUrl100,
+            trackTimeMillis = track.trackTimeMillis,
         ) ?: track
     }
 }

@@ -14,10 +14,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class PlaylistViewModel(
     private val playlistsRepository: PlaylistsRepository,
     private val tracksRepository: TracksRepository,
+    private val playlistId: Long? = null,
 ) : ViewModel() {
 
     val playlists: StateFlow<List<Playlist>> = playlistsRepository
@@ -27,6 +29,12 @@ class PlaylistViewModel(
     val favoriteList: StateFlow<List<Track>> = tracksRepository
         .getFavoriteTracks()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val playlist: StateFlow<Playlist?> = playlistId?.let {
+        playlistsRepository
+            .getPlaylist(it)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+    } ?: MutableStateFlow(null)
 
     fun createNewPlaylist(namePlaylist: String, description: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -64,14 +72,14 @@ class PlaylistViewModel(
     }
 
     companion object {
-        fun getViewModelFactory(context: Context): ViewModelProvider.Factory =
+        fun getViewModelFactory(context: Context, playlistId: Long? = null): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     val appContext = context.applicationContext
                     val playlistsRepository = Creator.getPlaylistsRepository()
                     val tracksRepository = Creator.getTracksRepository(appContext)
-                    return PlaylistViewModel(playlistsRepository, tracksRepository) as T
+                    return PlaylistViewModel(playlistsRepository, tracksRepository, playlistId) as T
                 }
             }
     }

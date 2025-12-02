@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.io.IOException
+import com.example.playlist_maker_android_nadtochievatatyana.data.repository.ResponseCodeException
 
 class SearchViewModel(
     private val tracksRepository: TracksRepository,
@@ -23,13 +24,16 @@ class SearchViewModel(
 
     private val _searchScreenState = MutableStateFlow<SearchState>(SearchState.Initial)
     val searchScreenState: StateFlow<SearchState> = _searchScreenState.asStateFlow()
+    private var lastQuery: String? = null
 
     fun search(whatSearch: String) {
         val query = whatSearch.trim()
         if (query.isEmpty()) {
             _searchScreenState.update { SearchState.Initial }
+            lastQuery = null
             return
         }
+        lastQuery = query
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _searchScreenState.update { SearchState.Searching }
@@ -37,6 +41,8 @@ class SearchViewModel(
                 _searchScreenState.update { SearchState.Success(tracks) }
             } catch (error: IOException) {
                 _searchScreenState.update { SearchState.Fail(R.string.search_error_network) }
+            } catch (_: ResponseCodeException) {
+                _searchScreenState.update { SearchState.Fail(R.string.search_error_server) }
             } catch (_: Exception) {
                 _searchScreenState.update { SearchState.Fail(R.string.search_error_unknown) }
             }
@@ -44,6 +50,12 @@ class SearchViewModel(
     }
     fun reset() {
         _searchScreenState.value = SearchState.Initial
+        lastQuery = null
+    }
+
+    fun repeatLastSearch() {
+        val query = lastQuery ?: return
+        search(query)
     }
 
     companion object {
