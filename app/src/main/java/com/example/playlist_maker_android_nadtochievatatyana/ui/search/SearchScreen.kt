@@ -51,8 +51,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardActions
-import androidx.compose.ui.text.input.KeyboardOptions
 import androidx.compose.ui.text.style.TextOverflow
 import coil.compose.AsyncImage
 
@@ -76,7 +74,6 @@ fun TrackListItem(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         AsyncImage(
-            painter = painterResource(id = R.drawable.ic_music),
             modifier = Modifier
                 .size(64.dp)
                 .clip(shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
