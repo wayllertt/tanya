@@ -73,4 +73,6 @@
     <string name="search_error_server">На сервере произошла ошибка</string>
     <string name="search_action_retry">Обновить</string>
     <string name="playlist_empty_tracks">В плейлисте пока нет треков</string>
+
+    <string name="search_history_title">История поиска</string>
 </resources>
