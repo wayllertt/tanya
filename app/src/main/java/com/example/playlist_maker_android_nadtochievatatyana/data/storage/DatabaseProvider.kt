@@ -14,7 +14,10 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "playlist_maker.db",
-            ).build().also { createdDatabase ->
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+                .also { createdDatabase ->
                 database = createdDatabase
             }
         }

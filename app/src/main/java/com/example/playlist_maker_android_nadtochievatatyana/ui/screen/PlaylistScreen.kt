@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.TrackListItem
+import androidx.compose.ui.layout.ContentScale
 
 @Composable
 fun PlaylistRoute(
@@ -99,7 +101,7 @@ fun PlaylistScreen(
                             modifier = Modifier.fillMaxWidth(),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            PlaylistHeader()
+                            PlaylistHeader(coverImageUri = playlist.coverImageUri)
                             Text(
                                 text = playlist.name,
                                 fontSize = 22.sp,
@@ -148,18 +150,19 @@ fun PlaylistScreen(
 }
 
 @Composable
-private fun PlaylistHeader() {
+private fun PlaylistHeader(coverImageUri: String?) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         AsyncImage(
             modifier = Modifier.size(160.dp),
-            model = null,
+            model = coverImageUri?.let { Uri.parse(it) },
             placeholder = painterResource(id = R.drawable.ic_music),
             error = painterResource(id = R.drawable.ic_music),
             fallback = painterResource(id = R.drawable.ic_music),
-            contentDescription = null,
+            contentDescription = stringResource(id = R.string.playlist_cover),
+            contentScale = ContentScale.Crop,
         )
     }
 }

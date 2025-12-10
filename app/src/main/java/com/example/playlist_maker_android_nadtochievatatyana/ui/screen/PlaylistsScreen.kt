@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +40,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Playlist
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 
 @Composable
 fun PlaylistListItem(
@@ -53,12 +56,23 @@ fun PlaylistListItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Image(
-            modifier = Modifier.size(48.dp),
-            painter = painterResource(id = R.drawable.ic_music),
-            contentDescription = playlist.name,
-            colorFilter = ColorFilter.tint(Color.Gray),
-        )
+        Box(modifier = Modifier.size(48.dp)) {
+            if (playlist.coverImageUri != null) {
+                AsyncImage(
+                    model = Uri.parse(playlist.coverImageUri),
+                    contentDescription = playlist.name,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(id = R.drawable.ic_music),
+                    contentDescription = playlist.name,
+                    colorFilter = ColorFilter.tint(Color.Gray),
+                )
+            }
+        }
         Column(
             modifier = Modifier.weight(1f),
         ) {

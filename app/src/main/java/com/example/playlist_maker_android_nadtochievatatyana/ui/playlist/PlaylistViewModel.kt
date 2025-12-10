@@ -22,6 +22,10 @@ class PlaylistViewModel(
     private val playlistId: Long? = null,
 ) : ViewModel() {
 
+    private val _coverImageUri = MutableStateFlow<String?>(null)
+    val coverImageUri: StateFlow<String?> = _coverImageUri
+
+
     val playlists: StateFlow<List<Playlist>> = playlistsRepository
         .getAllPlaylists()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
@@ -35,10 +39,14 @@ class PlaylistViewModel(
             .getPlaylist(it)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
     } ?: MutableStateFlow(null)
+    fun setCoverImageUri(uri: String?) {
+        _coverImageUri.value = uri
+    }
 
     fun createNewPlaylist(namePlaylist: String, description: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            playlistsRepository.addNewPlaylist(namePlaylist, description)
+            playlistsRepository.addNewPlaylist(namePlaylist, description, _coverImageUri.value)
+            _coverImageUri.value = null
         }
     }
 
