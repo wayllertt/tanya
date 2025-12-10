@@ -1,9 +1,9 @@
 package com.example.playlist_maker_android_nadtochievatatyana.data.preferences
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -47,7 +47,7 @@ class SearchHistoryPreferences(
     }
 
     companion object {
-        private val PREFERENCES_KEY = preferencesKey<String>("search_history")
+        private val PREFERENCES_KEY: Preferences.Key<String> = stringPreferencesKey("search_history")
         private const val MAX_ENTRIES = 10
         private const val SEPARATOR = ","
     }
