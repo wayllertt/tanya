@@ -2,8 +2,9 @@ package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,13 +19,18 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,15 +49,20 @@ import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.Playlis
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PlaylistListItem(
     playlist: Playlist,
     onClick: () -> Unit,
+    onLongClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .combinedClickable(
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
             .padding(vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -93,6 +104,7 @@ fun PlaylistsScreen(
     ),
 ) {
     val playlistsState = playlistViewModel.playlists.collectAsStateWithLifecycle(emptyList())
+    var playlistToDelete by remember { mutableStateOf<Playlist?>(null) }
 
     Scaffold(
         topBar = {
@@ -146,11 +158,39 @@ fun PlaylistsScreen(
                         .padding(horizontal = 16.dp),
                 ) {
                     items(playlistsState.value) { playlist ->
-                        PlaylistListItem(playlist = playlist) { onPlaylistClick(playlist) }
+                        PlaylistListItem(
+                            playlist = playlist,
+                            onClick = { onPlaylistClick(playlist) },
+                            onLongClick = { playlistToDelete = playlist },
+                        )
                         HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
                     }
                 }
             }
+        }
+        playlistToDelete?.let { playlist ->
+            AlertDialog(
+                onDismissRequest = { playlistToDelete = null },
+                title = { Text(text = stringResource(id = R.string.delete_playlist_title)) },
+                text = { Text(text = stringResource(id = R.string.delete_playlist_message, playlist.name)) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        playlistViewModel.deletePlaylistById(playlist.id)
+                        playlistToDelete = null
+                    }) {
+                        Text(
+                            text = stringResource(id = R.string.delete_playlist_confirm),
+                            color = Color.Red,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { playlistToDelete = null }) {
+                        Text(text = stringResource(id = R.string.delete_playlist_cancel))
+                    }
+                },
+            )
         }
     }
 }

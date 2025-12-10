@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
+import androidx.compose.material.icons.filled.Delete
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -73,6 +74,12 @@ fun PlaylistScreen(
             RowTopBar(
                 onBack = onBack,
                 title = playlistState?.name ?: stringResource(id = R.string.menu_playlists),
+                onDelete = playlistState?.let { playlist ->
+                    {
+                        playlistViewModel.deletePlaylistById(playlist.id)
+                        onBack()
+                    }
+                },
             )
         },
     ) { innerPadding ->
@@ -168,7 +175,7 @@ private fun PlaylistHeader(coverImageUri: String?) {
 }
 
 @Composable
-private fun RowTopBar(onBack: () -> Unit, title: String) {
+private fun RowTopBar(onBack: () -> Unit, title: String, onDelete: (() -> Unit)? = null) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -183,8 +190,17 @@ private fun RowTopBar(onBack: () -> Unit, title: String) {
         }
         Text(
             text = title,
+            modifier = Modifier.weight(1f),
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
         )
+        onDelete?.let { deleteAction ->
+            IconButton(onClick = deleteAction) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = stringResource(id = R.string.content_description_delete_playlist),
+                )
+            }
+        }
     }
 }
