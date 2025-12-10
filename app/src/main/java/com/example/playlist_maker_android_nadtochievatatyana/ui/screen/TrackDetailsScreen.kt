@@ -41,6 +41,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrackDetailsRoute(
@@ -101,11 +102,15 @@ fun TrackDetailsScreen(
                         modifier = Modifier.padding(top = 8.dp),
                     ) {
                         items(playlists.value) { playlist ->
-                            PlaylistListItem(playlist = playlist) {
-                                playlistViewModel.insertSongToPlaylist(currentTrack, playlist.id)
-                                currentTrack = currentTrack.copy(playlistId = playlist.id)
-                                showBottomSheet = false
-                            }
+                            PlaylistListItem(
+                                playlist = playlist,
+                                onClick = {
+                                    playlistViewModel.insertSongToPlaylist(currentTrack, playlist.id)
+                                    currentTrack = currentTrack.copy(playlistId = playlist.id)
+                                    showBottomSheet = false
+                                },
+                                onLongClick = {},
+                            )
                             HorizontalDivider()
                         }
                     }

@@ -48,6 +48,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Playl
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
+import androidx.compose.runtime.getValue
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
