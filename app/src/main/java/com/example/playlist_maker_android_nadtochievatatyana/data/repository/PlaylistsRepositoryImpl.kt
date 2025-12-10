@@ -1,25 +1,36 @@
 package com.example.playlist_maker_android_nadtochievatatyana.data.repository
 
-import com.example.playlist_maker_android_nadtochievatatyana.data.storage.DatabaseMock
+import com.example.playlist_maker_android_nadtochievatatyana.data.storage.db.AppDatabase
+import com.example.playlist_maker_android_nadtochievatatyana.data.storage.db.PlaylistEntity
+import com.example.playlist_maker_android_nadtochievatatyana.data.storage.db.PlaylistWithTracks
+import com.example.playlist_maker_android_nadtochievatatyana.data.storage.db.TrackEntity
 import com.example.playlist_maker_android_nadtochievatatyana.domain.api.PlaylistsRepository
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Playlist
+import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class PlaylistsRepositoryImpl(
-    private val database: DatabaseMock,
+    database: AppDatabase,
 ) : PlaylistsRepository {
 
+    private val playlistDao = database.playlistDao()
+
     override fun getPlaylist(playlistId: Long): Flow<Playlist?> {
-        return database.getPlaylist(playlistId)
+        return playlistDao.getPlaylist(playlistId).map { entity ->
+            entity?.toDomain()
+        }
     }
 
     override fun getAllPlaylists(): Flow<List<Playlist>> {
-        return database.getAllPlaylists()
+        return playlistDao.getAllPlaylists().map { playlists ->
+            playlists.map { it.toDomain() }
+        }
     }
 
     override suspend fun addNewPlaylist(name: String, description: String) {
-        database.insertPlaylist(
-            Playlist(
+        playlistDao.insertPlaylist(
+            PlaylistEntity(
                 name = name,
                 description = description,
             ),
@@ -27,6 +38,26 @@ class PlaylistsRepositoryImpl(
     }
 
     override suspend fun deletePlaylistById(id: Long) {
-        database.deletePlaylistById(id)
+        playlistDao.deletePlaylistById(id)
     }
+
 }
+private fun TrackEntity.toDomain(): Track =
+    Track(
+        id = id,
+        trackName = trackName,
+        artistName = artistName,
+        trackTime = trackTime,
+        artworkUrl100 = artworkUrl100,
+        trackTimeMillis = trackTimeMillis,
+        playlistId = playlistId,
+        favorite = favorite,
+    )
+
+private fun PlaylistWithTracks.toDomain(): Playlist =
+    Playlist(
+        id = playlist.id,
+        name = playlist.name,
+        description = playlist.description,
+        tracks = tracks.map { it.toDomain() },
+    )

@@ -77,7 +77,7 @@ class PlaylistViewModel(
                 @Suppress("UNCHECKED_CAST")
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     val appContext = context.applicationContext
-                    val playlistsRepository = Creator.getPlaylistsRepository()
+                    val playlistsRepository = Creator.getPlaylistsRepository(appContext)
                     val tracksRepository = Creator.getTracksRepository(appContext)
                     return PlaylistViewModel(playlistsRepository, tracksRepository, playlistId) as T
                 }
