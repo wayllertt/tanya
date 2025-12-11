@@ -81,7 +81,13 @@ fun TrackDetailsScreen(
     LaunchedEffect(track.id) {
         val stored = playlistViewModel.findTrack(track)
         if (stored != null) {
-            currentTrack = stored
+            currentTrack = stored.copy(
+                artworkUrl100 = stored.artworkUrl100 ?: track.artworkUrl100,
+                trackTime = stored.trackTime.ifBlank { track.trackTime },
+                trackName = stored.trackName.ifBlank { track.trackName },
+                artistName = stored.artistName.ifBlank { track.artistName },
+                trackTimeMillis = stored.trackTimeMillis ?: track.trackTimeMillis,
+            )
         }
     }
 
