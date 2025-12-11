@@ -75,8 +75,8 @@ class TracksRepositoryImpl(
             trackName = track.trackName,
             artistName = track.artistName,
             trackTime = track.trackTime,
-            artworkUrl100 = track.artworkUrl100,
-            trackTimeMillis = track.trackTimeMillis,
+            artworkUrl100 = track.artworkUrl100 ?: storedTrack.artworkUrl100,
+            trackTimeMillis = track.trackTimeMillis ?: storedTrack.trackTimeMillis,
         ) ?: track
     }
 }

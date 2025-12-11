@@ -1,5 +1,6 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -167,10 +168,10 @@ fun TrackDetailsScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 AsyncImage(
+                    model = Uri.parse(playlist.coverImageUri),
                     modifier = Modifier
                         .size(dimensionResource(id = R.dimen.track_details_image_size))
                         .clip(RoundedCornerShape(dimensionResource(id = R.dimen.track_details_image_corner_radius))),
-                    model = currentTrack.getArtworkUrlForSize(512),
                     contentDescription = stringResource(
                         id = R.string.content_description_track,
                         currentTrack.trackName,
