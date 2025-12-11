@@ -10,3 +10,15 @@ data class Track(
     val playlistId: Long = 0,
     val favorite: Boolean = false,
 )
+
+fun Track.getArtworkUrlForSize(size: Int): String? {
+    val originalUrl = artworkUrl100 ?: return null
+    val separatorIndex = originalUrl.lastIndexOf('/')
+    val newFileName = "${size}x${size}bb.jpg"
+
+    return if (separatorIndex != -1) {
+        originalUrl.substring(0, separatorIndex + 1) + newFileName
+    } else {
+        originalUrl
+    }
+}

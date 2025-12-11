@@ -21,12 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.TrackListItem
+import androidx.compose.ui.res.dimensionResource
 
 @Composable
 fun FavoritesScreen(
@@ -43,7 +43,10 @@ fun FavoritesScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.top_bar_padding_horizontal),
+                        vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical),
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(onClick = onBack) {
@@ -79,7 +82,9 @@ fun FavoritesScreen(
                             playlistViewModel.toggleFavorite(favoriteList[index], false)
                         },
                     )
-                    HorizontalDivider(thickness = 0.5.dp)
+                    HorizontalDivider(
+                        thickness = dimensionResource(id = R.dimen.common_divider_thickness),
+                    )
                 }
             }
         }

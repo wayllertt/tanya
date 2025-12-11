@@ -31,8 +31,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
@@ -41,6 +39,8 @@ import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
 import com.example.playlist_maker_android_nadtochievatatyana.ui.search.TrackListItem
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun PlaylistRoute(
@@ -100,18 +100,22 @@ fun PlaylistScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                        .padding(horizontal = dimensionResource(id = R.dimen.playlist_content_horizontal_padding)),
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.playlist_content_vertical_spacing),
+                    ),
                 ) {
                     item {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(
+                                dimensionResource(id = R.dimen.playlist_header_vertical_spacing),
+                            ),
                         ) {
                             PlaylistHeader(coverImageUri = playlist.coverImageUri)
                             Text(
                                 text = playlist.name,
-                                fontSize = 22.sp,
+                                fontSize = dimensionResource(id = R.dimen.playlist_title_text_size).value.sp,
                                 fontWeight = FontWeight.Bold,
                             )
                             if (playlist.description.isNotBlank()) {
@@ -123,10 +127,17 @@ fun PlaylistScreen(
                                     playlist.tracks.size,
                                 ),
                                 color = Color.Gray,
-                                fontSize = 12.sp,
+                                fontSize = dimensionResource(id = R.dimen.playlist_tracks_count_text_size).value.sp,
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
-                            HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
+                            Spacer(
+                                modifier = Modifier.height(
+                                    dimensionResource(id = R.dimen.playlist_header_divider_spacing),
+                                ),
+                            )
+                            HorizontalDivider(
+                                thickness = dimensionResource(id = R.dimen.common_divider_thickness),
+                                color = Color.LightGray,
+                            )
                         }
                     }
                     if (playlist.tracks.isEmpty()) {
@@ -134,7 +145,7 @@ fun PlaylistScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(vertical = 16.dp),
+                                    .padding(vertical = dimensionResource(id = R.dimen.playlist_empty_state_vertical_padding)),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 Text(text = stringResource(id = R.string.playlist_empty_tracks), color = Color.Gray)
@@ -144,10 +155,15 @@ fun PlaylistScreen(
                         items(playlist.tracks) { track ->
                             TrackListItem(
                                 track = track,
-                                modifier = Modifier.padding(vertical = 4.dp),
+                                modifier = Modifier.padding(
+                                    vertical = dimensionResource(id = R.dimen.playlist_track_item_vertical_padding),
+                                ),
                                 onClick = { onTrackClick(track) },
                             )
-                            HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
+                            HorizontalDivider(
+                                thickness = dimensionResource(id = R.dimen.common_divider_thickness),
+                                color = Color.LightGray,
+                            )
                         }
                     }
                 }
@@ -163,7 +179,7 @@ private fun PlaylistHeader(coverImageUri: String?) {
         contentAlignment = Alignment.Center,
     ) {
         AsyncImage(
-            modifier = Modifier.size(160.dp),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.playlist_header_cover_size)),
             model = coverImageUri?.let { Uri.parse(it) },
             placeholder = painterResource(id = R.drawable.ic_music),
             error = painterResource(id = R.drawable.ic_music),
@@ -179,7 +195,10 @@ private fun RowTopBar(onBack: () -> Unit, title: String, onDelete: (() -> Unit)?
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(
+                horizontal = dimensionResource(id = R.dimen.top_bar_padding_horizontal),
+                vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical),
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onBack) {
@@ -192,7 +211,7 @@ private fun RowTopBar(onBack: () -> Unit, title: String, onDelete: (() -> Unit)?
             text = title,
             modifier = Modifier.weight(1f),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
+            fontSize = dimensionResource(id = R.dimen.top_bar_title_text_size).value.sp,
         )
         onDelete?.let { deleteAction ->
             IconButton(onClick = deleteAction) {

@@ -58,6 +58,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
+import com.example.playlist_maker_android_nadtochievatatyana.domain.models.getArtworkUrlForSize
 
 @Composable
 fun TrackListItem(
@@ -84,9 +85,9 @@ fun TrackListItem(
     ) {
         AsyncImage(
             modifier = Modifier
-                .size(64.dp)
-                .clip(shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
-            model = track.artworkUrl100,
+                .size(dimensionResource(id = R.dimen.track_list_item_image_size))
+                .clip(shape = RoundedCornerShape(dimensionResource(id = R.dimen.track_list_item_image_corner_radius))),
+            model = track.getArtworkUrlForSize(100),
             contentDescription = stringResource(
                 R.string.content_description_track,
                 track.trackName,
@@ -99,7 +100,7 @@ fun TrackListItem(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = dimensionResource(id = R.dimen.track_list_item_content_padding)),
             horizontalAlignment = Alignment.Start,
         ) {
             Text(track.trackName, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)

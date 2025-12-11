@@ -38,8 +38,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.layout.ContentScale
@@ -47,6 +45,9 @@ import coil.compose.AsyncImage
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
+import androidx.compose.ui.res.dimensionResource
+import com.example.playlist_maker_android_nadtochievatatyana.domain.models.getArtworkUrlForSize
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +92,7 @@ fun TrackDetailsScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(dimensionResource(id = R.dimen.track_details_bottom_sheet_padding)),
             ) {
                 Text(
                     text = stringResource(id = R.string.modal_playlists_title),
@@ -100,12 +101,12 @@ fun TrackDetailsScreen(
                 )
                 if (playlists.value.isEmpty()) {
                     Text(
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.track_details_bottom_sheet_spacing)),
                         text = stringResource(id = R.string.no_playlists_for_track),
                     )
                 } else {
                     LazyColumn(
-                        modifier = Modifier.padding(top = 8.dp),
+                        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.track_details_bottom_sheet_list_spacing)),
                     ) {
                         items(playlists.value) { playlist ->
                             PlaylistListItem(
@@ -130,7 +131,10 @@ fun TrackDetailsScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.top_bar_padding_horizontal),
+                        vertical = dimensionResource(id = R.dimen.top_bar_padding_vertical),
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(onClick = onBack) {
@@ -151,9 +155,11 @@ fun TrackDetailsScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimensionResource(id = R.dimen.track_details_content_horizontal_padding))
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.track_details_content_spacing),
+            ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Box(
@@ -162,9 +168,9 @@ fun TrackDetailsScreen(
             ) {
                 AsyncImage(
                     modifier = Modifier
-                        .size(240.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                    model = currentTrack.artworkUrl100,
+                        .size(dimensionResource(id = R.dimen.track_details_image_size))
+                        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.track_details_image_corner_radius))),
+                    model = currentTrack.getArtworkUrlForSize(512),
                     contentDescription = stringResource(
                         id = R.string.content_description_track,
                         currentTrack.trackName,
@@ -175,12 +181,21 @@ fun TrackDetailsScreen(
                     contentScale = ContentScale.Crop,
                 )
             }
-            Text(text = currentTrack.trackName, fontSize = 22.sp, fontWeight = FontWeight.Bold)
-            Text(text = currentTrack.artistName, fontSize = 18.sp)
+            Text(
+                text = currentTrack.trackName,
+                fontSize = dimensionResource(id = R.dimen.track_details_title_text_size).value.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                text = currentTrack.artistName,
+                fontSize = dimensionResource(id = R.dimen.track_details_artist_text_size).value.sp,
+            )
             Text(text = stringResource(id = R.string.track_time_template, currentTrack.trackTime))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.track_details_action_spacing),
+                ),
             ) {
                 IconButton(onClick = {
                     val newFavorite = !currentTrack.favorite
