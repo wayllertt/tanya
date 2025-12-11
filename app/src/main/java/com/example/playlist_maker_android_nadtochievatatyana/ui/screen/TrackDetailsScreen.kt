@@ -168,7 +168,7 @@ fun TrackDetailsScreen(
                 contentAlignment = Alignment.Center,
             ) {
                 AsyncImage(
-                    model = Uri.parse(playlist.coverImageUri),
+                    model = currentTrack.getArtworkUrlForSize(512),
                     modifier = Modifier
                         .size(dimensionResource(id = R.dimen.track_details_image_size))
                         .clip(RoundedCornerShape(dimensionResource(id = R.dimen.track_details_image_corner_radius))),
