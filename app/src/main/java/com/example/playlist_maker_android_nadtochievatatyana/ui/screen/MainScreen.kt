@@ -44,21 +44,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.playlist_maker_android_nadtochievatatyana.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     onOpenSearch: () -> Unit,
     onOpenPlaylists: () -> Unit,
     onOpenFavorites: () -> Unit,
-    onOpenSettings: () -> Unit
+    onOpenSettings: () -> Unit,
+    onCreatePlaylist: () -> Unit,
 ) {
-    var isBottomSheetVisible by rememberSaveable { mutableStateOf(false) }
-    val sheetState = rememberModalBottomSheetState()
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            FloatingActionButton(onClick = { isBottomSheetVisible = true }) {
+            FloatingActionButton(
+                onClick = onCreatePlaylist,
+                containerColor = Color(0xFF3D6EFF),
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
                     contentDescription = stringResource(id = R.string.fab_content_description),
@@ -110,35 +110,6 @@ fun MainScreen(
                 )
             }
         }
-    }
-        if (isBottomSheetVisible) {
-            ModalBottomSheet(
-                onDismissRequest = { isBottomSheetVisible = false },
-                sheetState = sheetState
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp, vertical = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.bottom_sheet_title),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Text(
-                        text = stringResource(id = R.string.bottom_sheet_message),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-
     }
 }
 

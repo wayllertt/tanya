@@ -1,13 +1,16 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -30,17 +33,20 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.AsyncImage
 import com.example.playlist_maker_android_nadtochievatatyana.R
 import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import com.example.playlist_maker_android_nadtochievatatyana.ui.playlist.PlaylistViewModel
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -140,14 +146,35 @@ fun TrackDetailsScreen(
                 )
             }
         },
-    ) { innerPadding ->
+    ) {
+        innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(horizontal = 16.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .size(240.dp)
+                        .clip(RoundedCornerShape(16.dp)),
+                    model = currentTrack.artworkUrl100,
+                    contentDescription = stringResource(
+                        id = R.string.content_description_track,
+                        currentTrack.trackName,
+                    ),
+                    placeholder = painterResource(id = R.drawable.ic_music),
+                    error = painterResource(id = R.drawable.ic_music),
+                    fallback = painterResource(id = R.drawable.ic_music),
+                    contentScale = ContentScale.Crop,
+                )
+            }
             Text(text = currentTrack.trackName, fontSize = 22.sp, fontWeight = FontWeight.Bold)
             Text(text = currentTrack.artistName, fontSize = 18.sp)
             Text(text = stringResource(id = R.string.track_time_template, currentTrack.trackTime))

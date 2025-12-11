@@ -33,7 +33,8 @@ fun PlaylistHost(navController: NavHostController) {
                 onOpenPlaylists = { navController.navigate(route = AppScreen.Playlists.route) },
                 onOpenFavorites = { navController.navigate(route = AppScreen.Favorites.route) },
                 onOpenSettings = { navController.navigate(AppScreen.Settings.route) },
-            )
+                onCreatePlaylist = { navController.navigate(AppScreen.CreatePlaylist.route) },
+                )
         }
         composable(AppScreen.Search.route) {
             SearchRoute(
@@ -93,6 +94,11 @@ fun PlaylistHost(navController: NavHostController) {
                 navArgument("trackName") { type = NavType.StringType },
                 navArgument("artistName") { type = NavType.StringType },
                 navArgument("trackTime") { type = NavType.StringType },
+                navArgument("artworkUrl") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = true
+                },
             ),
         ) { backStackEntry ->
             val arguments = backStackEntry.arguments ?: return@composable
@@ -101,6 +107,7 @@ fun PlaylistHost(navController: NavHostController) {
                 trackName = arguments.getString("trackName") ?: "",
                 artistName = arguments.getString("artistName") ?: "",
                 trackTime = arguments.getString("trackTime") ?: "",
+                artworkUrl100 = arguments.getString("artworkUrl")?.takeIf { it.isNotBlank() },
             )
             TrackDetailsRoute(
                 track = track,
@@ -114,7 +121,8 @@ fun AppScreen.Companion.trackDetailsRoute(track: Track): String {
     val encodedName = Uri.encode(track.trackName)
     val encodedArtist = Uri.encode(track.artistName)
     val encodedTime = Uri.encode(track.trackTime)
-    return "${AppScreen.TrackDetails.baseRoute}/${track.id}/$encodedName/$encodedArtist/$encodedTime"
+    val encodedArtwork = Uri.encode(track.artworkUrl100 ?: "")
+    return "${AppScreen.TrackDetails.baseRoute}/${track.id}/$encodedName/$encodedArtist/$encodedTime?artworkUrl=$encodedArtwork"
 }
 
 fun AppScreen.Companion.playlistRoute(playlistId: Long): String {

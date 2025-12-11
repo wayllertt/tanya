@@ -12,7 +12,7 @@ sealed class AppScreen(val route: String) {
     data object Playlist : AppScreen("playlist/{playlistId}") {
         const val baseRoute: String = "playlist"
     }
-    data object TrackDetails : AppScreen("$TRACK_DETAILS_BASE_ROUTE/{trackId}/{trackName}/{artistName}/{trackTime}") {
+    data object TrackDetails : AppScreen("$TRACK_DETAILS_BASE_ROUTE/{trackId}/{trackName}/{artistName}/{trackTime}?artworkUrl={artworkUrl}") {
         const val baseRoute: String = TRACK_DETAILS_BASE_ROUTE
     }
 
