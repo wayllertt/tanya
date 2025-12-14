@@ -49,7 +49,6 @@ fun SettingsScreen(onBack: () -> Unit) {
     val emailSubject = stringResource(R.string.dev_email_subject)
     val emailBody = stringResource(R.string.dev_email_body)
     val offerUrl = stringResource(R.string.offer_url)
-    val mailToUri = stringResource(R.string.mailto_scheme, emailTo)
 
     Scaffold(
         topBar = {
@@ -143,7 +142,9 @@ fun SettingsScreen(onBack: () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse(mailToUri)).apply {
+                        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse("mailto:")
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf(emailTo))
                             putExtra(Intent.EXTRA_SUBJECT, emailSubject)
                             putExtra(Intent.EXTRA_TEXT, emailBody)
                         }

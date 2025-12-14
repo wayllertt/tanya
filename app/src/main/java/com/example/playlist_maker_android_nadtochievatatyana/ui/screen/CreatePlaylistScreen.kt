@@ -61,7 +61,7 @@ fun CreatePlaylistScreen(
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
     ) { uri: Uri? ->
-        playlistViewModel.setCoverImageUri(uri?.toString())
+        playlistViewModel.saveCoverImage(uri)
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(

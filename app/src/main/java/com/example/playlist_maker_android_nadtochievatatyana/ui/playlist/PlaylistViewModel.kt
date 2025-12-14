@@ -1,6 +1,7 @@
 package com.example.playlist_maker_android_nadtochievatatyana.ui.playlist
 
 import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -15,8 +16,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.io.File
+import java.io.FileOutputStream
 
 class PlaylistViewModel(
+    private val appContext: Context,
     private val playlistsRepository: PlaylistsRepository,
     private val tracksRepository: TracksRepository,
     private val playlistId: Long? = null,
@@ -39,8 +43,23 @@ class PlaylistViewModel(
             .getPlaylist(it)
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
     } ?: MutableStateFlow(null)
-    fun setCoverImageUri(uri: String?) {
-        _coverImageUri.value = uri
+    fun saveCoverImage(sourceUri: Uri?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (sourceUri == null) {
+                _coverImageUri.value = null
+                return@launch
+            }
+
+            val targetFile = createCoverFile()
+            appContext.contentResolver.openInputStream(sourceUri)?.use { inputStream ->
+                FileOutputStream(targetFile).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+                _coverImageUri.value = targetFile.absolutePath
+            } ?: run {
+                _coverImageUri.value = null
+            }
+        }
     }
 
     fun createNewPlaylist(namePlaylist: String, description: String) {
@@ -87,8 +106,16 @@ class PlaylistViewModel(
                     val appContext = context.applicationContext
                     val playlistsRepository = Creator.getPlaylistsRepository(appContext)
                     val tracksRepository = Creator.getTracksRepository(appContext)
-                    return PlaylistViewModel(playlistsRepository, tracksRepository, playlistId) as T
+                    return PlaylistViewModel(appContext, playlistsRepository, tracksRepository, playlistId) as T
                 }
             }
+    }
+
+    private fun createCoverFile(): File {
+        val directory = File(appContext.filesDir, "covers")
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+        return File(directory, "cover_${System.currentTimeMillis()}.jpg")
     }
 }

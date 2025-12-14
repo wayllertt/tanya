@@ -15,7 +15,6 @@ object DatabaseProvider {
                 AppDatabase::class.java,
                 "playlist_maker.db",
             )
-                .fallbackToDestructiveMigration()
                 .build()
                 .also { createdDatabase ->
                 database = createdDatabase
