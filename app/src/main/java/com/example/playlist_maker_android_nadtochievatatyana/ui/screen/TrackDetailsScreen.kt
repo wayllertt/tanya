@@ -120,7 +120,6 @@ fun TrackDetailsScreen(
                                 playlist = playlist,
                                 onClick = {
                                     playlistViewModel.insertSongToPlaylist(currentTrack, playlist.id)
-                                    currentTrack = currentTrack.copy(playlistId = playlist.id)
                                     showBottomSheet = false
                                 },
                                 onLongClick = {},

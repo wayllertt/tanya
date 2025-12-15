@@ -51,7 +51,6 @@ private fun TrackEntity.toDomain(): Track =
         trackTime = trackTime,
         artworkUrl100 = artworkUrl100,
         trackTimeMillis = trackTimeMillis,
-        playlistId = playlistId,
         favorite = favorite,
     )
 

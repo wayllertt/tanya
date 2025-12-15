@@ -10,6 +10,7 @@ import com.example.playlist_maker_android_nadtochievatatyana.domain.models.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.math.abs
+import com.example.playlist_maker_android_nadtochievatatyana.data.storage.db.PlaylistTrackCrossRef
 
 class ResponseCodeException(val code: Int) : Exception()
 
@@ -19,6 +20,7 @@ class TracksRepositoryImpl(
 ) : TracksRepository {
 
     private val trackDao = database.trackDao()
+    private val playlistDao = database.playlistDao()
 
     override suspend fun searchTracks(expression: String): List<Track> {
         val response = networkClient.doRequest(TracksSearchRequest(expression))
@@ -51,13 +53,13 @@ class TracksRepositoryImpl(
     }
 
     override suspend fun insertSongToPlaylist(track: Track, playlistId: Long) {
-        val mergedTrack = mergeWithStoredTrack(track).copy(playlistId = playlistId)
+        val mergedTrack = mergeWithStoredTrack(track)
         trackDao.insertTrack(mergedTrack.toEntity())
+        playlistDao.insertTrackToPlaylist(PlaylistTrackCrossRef(playlistId, track.id))
     }
 
-    override suspend fun deleteSongFromPlaylist(track: Track) {
-        val mergedTrack = mergeWithStoredTrack(track).copy(playlistId = 0)
-        trackDao.insertTrack(mergedTrack.toEntity())
+    override suspend fun deleteSongFromPlaylist(track: Track, playlistId: Long) {
+        playlistDao.deleteTrackFromPlaylist(playlistId = playlistId, trackId = track.id)
     }
 
     override suspend fun updateTrackFavoriteStatus(track: Track, isFavorite: Boolean) {
@@ -66,7 +68,7 @@ class TracksRepositoryImpl(
     }
 
     override suspend fun deleteTracksByPlaylistId(playlistId: Long) {
-        trackDao.clearPlaylistTracks(playlistId)
+        playlistDao.deleteTracksByPlaylist(playlistId)
     }
 
     private suspend fun mergeWithStoredTrack(track: Track): Track {
@@ -89,7 +91,6 @@ private fun TrackEntity.toDomain(): Track =
         trackTime = trackTime,
         artworkUrl100 = artworkUrl100,
         trackTimeMillis = trackTimeMillis,
-        playlistId = playlistId,
         favorite = favorite,
     )
 
@@ -101,6 +102,5 @@ private fun Track.toEntity(): TrackEntity =
         trackTime = trackTime,
         artworkUrl100 = artworkUrl100,
         trackTimeMillis = trackTimeMillis,
-        playlistId = playlistId,
         favorite = favorite,
     )

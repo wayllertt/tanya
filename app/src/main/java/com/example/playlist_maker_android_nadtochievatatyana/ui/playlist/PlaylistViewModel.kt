@@ -83,7 +83,7 @@ class PlaylistViewModel(
 
     fun deleteSongFromPlaylist(track: Track) {
         viewModelScope.launch(Dispatchers.IO) {
-            tracksRepository.deleteSongFromPlaylist(track)
+            playlistId?.let { tracksRepository.deleteSongFromPlaylist(track, it) }
         }
     }
 
